@@ -9,13 +9,38 @@ var {body, validationResult} = require('express-validator');
 // Display home page for gameshop
 
 exports.index = function(req, res, next){
-  res.send('<h1>Hello world</h1>')
+  async.parallel({
+    category_count: function(callback){
+      Category.countDocuments({}, callback);
+    },
+    developer_count: function(callback){
+      Developer.countDocuments({}, callback);
+    },
+    game_count: function(callback){
+      Game.countDocuments({}, callback);
+    },
+    gameinstance_count: function(callback){
+      GameInstance.countDocuments({}, callback);
+    }
+  }, function(err, results){
+    if (err){ return next(err); }
+    console.log(results);
+    res.render('index', {title: 'Kiwi Games Fan Club', error: err, data: results});
+  })
 };
 
 // Display list of all games
 
 exports.game_list = function(req, res, next){
-  res.send("Not implemeneted: GET list of games")
+  Game.find({}, 'title developer category')
+  // .populate('title')
+  .populate('developer')
+  .populate('category')
+  .exec(function(err, list_games){
+    if (err) { return next(err); }
+    console.log(list_games);
+    res.render('game_list', {title: 'Game List', game_list: list_games})
+  })
 };
 
 // Display detail of a game

@@ -1,5 +1,17 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  div.welcome
+    h2 Welcome to Kiwi Games Fan Club
+    h3 We are so glad you're here!
+    p This is a place to share your favourite games and developers with other game enthusiasts within New Zealand.
+    p We have members from Kaitaia to Bluff and all love their games.
+    p Enjoy your stay, share a game you love and connect with our friendly community.
+
+block rightside
+  h4 About us
+  p Kiwi Games Fan club connects game lovers from all across New Zealand. Enjoy your visit, add a game you love and share it with us!
+  h4 What we like
+  p #{data.game_count} Games
+  p #{data.category_count} Categories
+  p #{data.developer_count} Developers

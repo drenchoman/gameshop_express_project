@@ -2,6 +2,27 @@ doctype html
 html
   head
     title= title
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    block content
+    div.container
+      div.topnav
+        a.home(href='/')= title
+      div.main
+        div.sidenav
+          block sidenav
+            ul.sidenavlist
+              lh.directory-header Directory
+              li
+                a(href='/games') All games
+              li
+                a(href='/developers') All developers
+              li
+                a(href='/categories') All categories
+              li
+                a(href='/gameinstances') All game instances
+        div.body
+          block content
+        div.rightside
+          block rightside
