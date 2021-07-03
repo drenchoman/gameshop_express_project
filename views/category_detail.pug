@@ -1,0 +1,19 @@
+extends layout
+
+block content
+
+  h1=title
+  div.developer-detail
+    p #[strong Name:]
+    p #{category.title}
+    p #{category.description}
+
+  div.copies-container
+    h4 Games:
+    each game in category_games
+      hr
+      a(href=game.url) #{game.title}
+      p #{game.description}
+
+    else
+      p There are no games for this category.

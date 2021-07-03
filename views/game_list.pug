@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1= title
+  div.game-list-container
+    each game in game_list
+      div.card
+        span Title
+        a(href=game.url) #{game.title}
+        span Developer
+        a(href=game.developer.url) #{game.developer.company}
+        span Genres
+        each item in game.category
+          a(href=item.url) #{item.name}
+
+    else
+      p There are no games available!
+      p Add a game!

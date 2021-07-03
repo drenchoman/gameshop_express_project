@@ -39,6 +39,7 @@ exports.game_list = function(req, res, next){
   .exec(function(err, list_games){
     if (err) { return next(err); }
     console.log(list_games);
+    console.log(list_games[0].category)
     res.render('game_list', {title: 'Game List', game_list: list_games})
   })
 };
@@ -46,7 +47,26 @@ exports.game_list = function(req, res, next){
 // Display detail of a game
 
 exports.game_detail = function(req, res , next){
-  res.send('Not implemented: Get detail of games');
+  async.parallel({
+    game: function(callback){
+      Game.findById(req.params.id)
+      .populate('developer')
+      .populate('category')
+      .exec(callback)
+    },
+    game_instance: function(callback){
+      GameInstance.find({'game': req.params.id})
+      .exec(callback);
+    },
+  }, function(err, results){
+    if (err){ return next(err); }
+    if (results.game=== null){
+    var err = new Error("Book not found");
+    err.status = 404;
+    return next(err);
+  }
+  res.render("game_detail", {title: results.game.title, game: results.game, game_instances: results.game_instance});
+});
 };
 
 // Display create new game form

@@ -1,0 +1,18 @@
+extends layout
+
+block content
+
+  h1 #{developer.company}
+  div.developer-detail
+    p #[strong About:]
+    p #{developer.description}
+
+  div.copies-container
+    h4 Games:
+    each val in developer_games
+      hr
+      a(href=val.url) #{val.title}
+      p #{val.description}
+
+    else
+      p There are no games for this developer.

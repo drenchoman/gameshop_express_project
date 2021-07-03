@@ -1,0 +1,15 @@
+extends layout
+
+block content
+
+  h1= title
+  div.game-list-container
+    each developer in developer_list
+      div.card
+        span Developer
+        a(href=developer.url) #{developer.company}
+        span Founded
+        p #{developer.founded}
+
+    else
+      p There are no developers here :(

@@ -9,12 +9,33 @@ var {body, validationResult} = require('express-validator');
 // Display list of all Developers
 
 exports.developer_list = function(req, res, next){
-  res.send("NOT IMPLEMENTED: GET list of Developers")
-}
+  Developer.find()
+    .exec(function(err, list_developers){
+      if(err){ return next(err); }
+      res.render('developer_list', {title: 'Developer List', developer_list: list_developers});
+    });
+};
 
 // Display detail of Developer
 exports.developer_detail = function(req, res, next){
-  res.send("NOT IMPLEMENTED: GET detail of Develoepr");
+  async.parallel({
+    developer: function(callback){
+      Developer.findById(req.params.id)
+      .exec(callback)
+    },
+    developers_games: function(callback){
+      Game.find({'developer': req.params.id}, 'title description')
+      .exec(callback)
+    },
+  }, function(err, results){
+    if(err) { return next(err); }
+    if (results.developer==null){
+      var err = new Error("Author not found");
+      err.status = 404
+      return next(err);
+    }
+    res.render("developer_detail", {title: 'Developer detail', developer: results.developer, developer_games: results.developers_games })
+  })
 };
 
 // Display create Developer FORM on GET
