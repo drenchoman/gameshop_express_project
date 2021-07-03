@@ -4,8 +4,10 @@ block content
   h1= title
   div.game-list-container
     each category in category_list
-      ul
-        li #category.name
+      a(href=category.url) #{category.name}
 
     else
       p There are no categories available!
+
+  hr
+  a(href='category/create') Create new category

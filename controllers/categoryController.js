@@ -43,7 +43,7 @@ exports.category_detail = function(req, res, next){
 // Display Category create Form
 
 exports.category_create_get= function(req, res, next){
-  res.render('category_form', {title: 'Create Category'});
+  res.render('category_form', {title: 'Create Category'})
 };
 
 // Handle Category create on POST
@@ -56,7 +56,7 @@ exports.category_create_post = [
     const errors = validationResult(req);
     var category = new Category({
       name: req.body.name,
-      description: req.body.descrption
+      description: req.body.description
     });
     if (!errors.isEmpty()){
       res.render('category_form', {title:'Create Category', category: category, errors: errors.array()});

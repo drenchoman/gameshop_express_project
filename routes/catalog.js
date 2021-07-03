@@ -9,11 +9,13 @@ var gameinstance_controller = require('../controllers/gameinstanceController');
 // Display all categories
 router.get('/categories', category_controller.category_list);
 
+// Get request for creating category
+router.get('/category/create', category_controller.category_create_get);
+
 // Display detail of single category
 router.get('/category/:id', category_controller.category_detail);
 
-// Get request for creating category
-router.get('/category/create', category_controller.category_create_get);
+
 
 // Post request for creating category
 router.post('/category/create', category_controller.category_create_post);

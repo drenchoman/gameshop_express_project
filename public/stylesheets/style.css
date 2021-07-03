@@ -171,3 +171,11 @@ flex-direction: column;
   flex-direction: column;
   width: 60%;
 }
+
+.form-group{
+  height: 35vh;
+display: flex;
+flex-direction: column;
+justify-content: space-evenly;
+align-items: center;
+}
