@@ -4,12 +4,11 @@ block content
 
   h1=title
   div.developer-detail
-    p #[strong Name:]
-    p #{category.name}
+    h4.header #{category.name}
     p #{category.description}
 
   div.copies-container
-    h4 Games:
+    h4.header Games
     each game in category_games
       hr
       a(href=game.url) #{game.title}

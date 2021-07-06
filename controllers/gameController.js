@@ -71,13 +71,75 @@ exports.game_detail = function(req, res , next){
 
 // Display create new game form
 exports.game_create_get = function(req, res, next){
-  res.send("Not implemented: GET game create form")
+  async.parallel({
+    developers: function(callback){
+      Developer.find(callback)
+    },
+    categories: function(callback){
+      Category.find(callback)
+    },
+  }, function(err, results){
+    if(err){return next(err);}
+    res.render("game_form", {title: "Add game", developers: results.developers, categories: results.categories})
+  });
 };
 
+
 // Handle create new game form
-exports.game_create_post = function(req, res, next){
-  res.send('NOT IMPLEMENTED: POST game create form');
-};
+exports.game_create_post = [
+  (req, res, next) => {
+    if(!(req.body.category instanceof Array)){
+      if(typeof req.body.category === 'undefined')
+      req.body.category = [];
+      else
+      req.body.category = new Array(req.body.category)
+    }
+    next();
+  },
+  body('title', 'Title must not be empty.').trim().isLength({min: 1}).escape(),
+  body('developer', 'Developer must not be empty.').trim().isLength({min: 1}).escape(),
+  body('description', 'Please provide a description of the game.').trim().isLength({min: 1}).escape(),
+  body('price', 'Please provide a price').trim().isLength({min: 1}).escape(),
+  body('cateory.*', 'Tick a box').escape(),
+
+  (req, res, next) => {
+    const errors = validationResult(req);
+
+    var game = new Game({
+      title: req.body.title,
+      developer: req.body.developer,
+      description: req.body.description,
+      price: req.body.price,
+      category: req.body.category
+    });
+    if (!errors.isEmpty()){
+      async.parallel({
+        developers: function(callback){
+          Developer.find(callback);
+        },
+        categories: function(callback){
+          Category.find(callback);
+        },
+      }, function(err, results){
+        if (err) { return next(err); }
+        for (let i = 0; i < result.category.length; i++){
+          if (game.category.indexOf(results.categories[i]._id) > -1){
+            results.categories[i].checked='true';
+          }
+        }
+        res.render('game_form', {title:"Add game", developers: results.developers, categories: results.categories, game: game, errors:errors.array() })
+      });
+      return;
+    }
+    else {
+      game.save(function(err){
+        if (err){ return next(err); }
+        res.redirect(game.url)
+      });
+    }
+  }
+]
+
 
 // Display(GET) game delete form
 exports.game_delete_get = function(req, res, next){
