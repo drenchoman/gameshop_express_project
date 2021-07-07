@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1=title
+
+  form(method='POST' action='')
+    div.form-group1
+      label(for='company') Developer:
+      input#company(type='text', placeholder='Developer eg: Blizzard' name='company' requried='true' value=(undefined===developer ? '' : developer.company))
+      label(for='founded') Founded:
+      input#founded(type='number', placeholder='1995', name='founded', required='true', value=(undefined===developer ? '' : developer.founded))
+      label(for='description') Description:
+      input#description(type='text', placeholder='Tell us about the developer' name='description' required='true', value=(undefined===developer ? '' : developer.description))
+      button(type='submit') Submit
+  hr
+  if errors
+    ul
+      for error in errors
+        li!= error.msg
