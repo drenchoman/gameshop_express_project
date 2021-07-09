@@ -81,16 +81,17 @@ router.post('/game/:id/update', game_controller.game_update_post);
 // Display game instances
 router.get('/gameinstances', gameinstance_controller.gameinstance_list);
 
-// GEt request for creating game instance
-router.get('/gameinstance/create', gameinstance_controller.gameinstance_create_get);
-
 // Post request for creating game instance
 router.post('/gameinstance/create', gameinstance_controller.gameinstance_create_post);
 
-// Display detail of individualgame instance
-router.get('/gameinstance/:id', gameinstance_controller.gameinstance_detail);
+
+// GEt request for creating game instance
+router.get('/gameinstance/create', gameinstance_controller.gameinstance_create_get);
 
 
+// // Display detail of individualgame instance
+// router.get('/gameinstance/:id', gameinstance_controller.gameinstance_detail);
+//
 
 // Get request for deleting game instance
 router.get('/gameinsance/:id/delete', gameinstance_controller.gameinstance_delete_get);
