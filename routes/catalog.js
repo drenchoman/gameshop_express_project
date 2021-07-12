@@ -6,25 +6,29 @@ var developer_controller = require('../controllers/developerController');
 var game_controller = require('../controllers/gameController');
 var gameinstance_controller = require('../controllers/gameinstanceController');
 
-// Display all categories
-router.get('/categories', category_controller.category_list);
+
 
 // Get request for creating category
 router.get('/category/create', category_controller.category_create_get);
-
-// Display detail of single category
-router.get('/category/:id', category_controller.category_detail);
-
-
-
-// Post request for creating category
-router.post('/category/create', category_controller.category_create_post);
 
 // Get request for delete category
 router.get('/category/:id/delete', category_controller.category_delete_get);
 
 // Post request for deleting category
 router.post('/category/:id/delete', category_controller.category_delete_post);
+
+
+
+
+// Display detail of single category
+router.get('/category/:id', category_controller.category_detail);
+
+
+// Post request for creating category
+router.post('/category/create', category_controller.category_create_post);
+
+// Display all categories
+router.get('/categories', category_controller.category_list);
 
 // Developer routes
 

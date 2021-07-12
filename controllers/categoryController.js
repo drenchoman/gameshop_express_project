@@ -36,6 +36,7 @@ exports.category_detail = function(req, res, next){
       return next(err);
     }
     console.log(results.category_games)
+    console.log("category----------------" + results.category)
     res.render('category_detail', {title: 'Category Detail', category: results.category, category_games: results.category_games })
   })
 };
@@ -86,11 +87,45 @@ exports.category_create_post = [
 //  Display Category Delete Form
 
 exports.category_delete_get = function(req, res, next){
-  res.send("NOT IMPLEMENTED: GET category delete form");
-};
+  async.parallel({
+    category: function(callback){
+      Category.findById(req.params.id).exec(callback)
+    },
+    category_games: function(callback){
+      Game.find({'category': req.params.id}).exec(callback)
+    },
+  }, function (err, results){
+    if(err){ return next(err); }
+    if(results.category === null){
+      res.redirect('/categories')
+    }
+      res.render('category_delete', {title: 'Delete Category', category: results.category, category_games:results.category_games});
+      return;
+    })
+  };
+
 
 // Handle Category Delete on POST
 
 exports.category_delete_post = function(req, res, next){
-  res.send("NOT IMPLEMENTED: POST category delete form");
+  async.parallel({
+    category: function(callback){
+      Category.findById(req.params.id).exec(callback)
+    },
+    category_games: function(callback){
+      Game.find({'category': req.params.id}).exec(callback)
+    },
+  }, function(err, results){
+    if(err){ return next(err); }
+    if(results.category_games > 0){
+      res.render('genre_delete', {title: 'Delete Category', category: results.category, category_games: results.category_games});
+      return;
+    }
+    else{
+      Category.findByIdAndRemove(req.body.categoryid, function deleteCategory(err){
+        if (err){ return next(err); }
+        res.redirect('/categories')
+      })
+    }
+  });
 };

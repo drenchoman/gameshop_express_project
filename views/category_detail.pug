@@ -7,6 +7,8 @@ block content
     h4.header #{category.name}
     p #{category.description}
 
+    hr
+    a.delete(href=category.delete_url) Delete Category
   div.copies-container
     h4.header Games
     each game in category_games
