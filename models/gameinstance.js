@@ -13,4 +13,10 @@ GameInstanceSchema
   return '/gameinstance/' + this._id;
 });
 
+GameInstanceSchema
+.virtual('delete_url')
+.get(function(){
+  return '/category/' + this._id + '/delete'
+})
+
 module.exports = mongoose.model('GameInstance', GameInstanceSchema);

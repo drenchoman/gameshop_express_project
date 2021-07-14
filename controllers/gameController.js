@@ -65,6 +65,7 @@ exports.game_detail = function(req, res , next){
     err.status = 404;
     return next(err);
   }
+  console.log(results.game_instance)
   res.render("game_detail", {title: results.game.title, game: results.game, game_instances: results.game_instance});
 });
 };
@@ -143,12 +144,50 @@ exports.game_create_post = [
 
 // Display(GET) game delete form
 exports.game_delete_get = function(req, res, next){
-  res.send('NOT IMPLEMENTED: GET game delete form');
+  async.parallel({
+    game: function(callback){
+      Game.findById(req.params.id).exec(callback)
+    },
+    game_instance: function(callback){
+      GameInstance.find({'game':req.params.id}).exec(callback)
+    },
+  }, function(err, results){
+    if(err){ return next(err);}
+    if(results.game_instance===null){
+      var err = new Error("Game instance not found")
+      err.status = 404
+      console.log(results.game_instance)
+      return next(err)
+    }
+    console.log(results.game)
+    res.render('game_delete', {title: 'Delete Game', game:results.game, gameinstance: results.game_instance})
+  })
 };
 
 // Handle game delete form on POST
 exports.game_delete_post = function(req, res, next){
-  res.send("NOT IMPLEMENTED: POST game delete form");
+  async.parallel({
+    game:function(callback){
+      Game.findById(req.params.id).exec(callback)
+    },
+    game_instance: function(callback){
+      GameInstance.find({'game':req.params.id}).exec(callback)
+    },
+  }, function(err, results){
+    if(err){return next(err);}
+    if(results.game_instance.length > 0){
+      res.render('game_delete', {title:'Delete Game', game:results.game, game_instance:results.gameinstance})
+      console.log(results.game.title)
+      return;
+    }
+    else {
+      console.log("Deleting Book")
+      Game.findByIdAndRemove(req.body.gameid, function deleteGame(err){
+        if(err){return next(err)}
+        res.redirect('/games')
+      })
+    }
+  });
 };
 
 // Display game update on get

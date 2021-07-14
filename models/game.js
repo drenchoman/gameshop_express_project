@@ -18,4 +18,10 @@ GameSchema
   return '/games/' + this._id;
 });
 
+GameSchema
+.virtual('delete_url')
+.get(function(){
+  return '/game/' + this._id + '/delete'
+});
+
 module.exports = mongoose.model('Game', GameSchema);

@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  h1 #{title}: #{game.title}
+
+  if gameinstance.length
+
+    p #[strong Delete the following game instances before attempting to delete this game.]
+
+    div
+
+      h4 Game Instances
+
+      dl
+      each instance in gameinstance
+        dt
+          a(href=instance.url) Meow
+
+  else
+    p Do you really want to delete this Game?
+
+    form(method='POST' action='')
+      div.form-group1
+        input(type='hidden', name='gameid', required='true' value=game._id)
+
+      button.delete(type='submit') Delete

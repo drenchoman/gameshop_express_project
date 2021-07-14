@@ -58,6 +58,13 @@ router.get('/', game_controller.index);
 // Display list of games
 router.get('/games', game_controller.game_list);
 
+// Get request for deleting game
+router.get('/game/:id/delete', game_controller.game_delete_get);
+
+// POST request for deleteing game
+router.post('/game/:id/delete', game_controller.game_delete_post);
+
+
 // Display detail of single game
 router.get('/games/:id', game_controller.game_detail);
 
@@ -67,11 +74,6 @@ router.get('/game/create', game_controller.game_create_get);
 // Post request for creating game
 router.post('/game/create', game_controller.game_create_post);
 
-// Get request for deleting game
-router.get('/game/:id/delete', game_controller.game_delete_get);
-
-// POST request for deleteing game
-router.post('/game/:id/delete', game_controller.game_delete_post);
 
 // Get request for updating game
 router.get('/game/:id/update', game_controller.game_update_get);
