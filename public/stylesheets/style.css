@@ -203,3 +203,9 @@ align-items: center;
 .delete{
   color: red;
 }
+.warning{
+  color: yellow;
+}
+.success{
+  color: green;
+}

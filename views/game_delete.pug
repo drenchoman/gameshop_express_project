@@ -14,7 +14,7 @@ block content
       dl
       each instance in gameinstance
         dt
-          a(href=instance.url) Meow
+          a(href=instance.url) #{instance._id}
 
   else
     p Do you really want to delete this Game?

@@ -11,6 +11,20 @@ exports.gameinstance_list = function(req, res, next){
   res.send('NOT IMPLEMENTED: get gameinstance list');
 }
 
+exports.gameinstance_detail = function(req, res, next){
+  GameInstance.findById(req.params.id)
+    .populate('game')
+    .exec(function(err, gameinstance){
+      if(err){ return next(err); }
+      if (gameinstance ===null){
+        var err = new Error('Game Instance not found')
+        err.status = 404
+        next(err)
+      }
+      res.render('gameinstance_detail', {title:'Copy: ' + gameinstance.game.title, gameinstance:gameinstance});
+    })
+};
+
 exports.gameinstance_create_get = function(req, res, next){
 let refId = req.headers.referer;
 refId = refId.slice(28)
@@ -60,14 +74,33 @@ exports.gameinstance_create_post = [
 
 
 
-
-
-
-
 exports.gameinstance_delete_get = function(req, res, next){
-  res.send("NOT IMPLEMENTED: GET gameinstance delete form");
+  GameInstance.findById(req.params.id)
+  .populate('game')
+  .exec(function(err, gameinstance){
+    if(err){ return next(err);}
+    if(gameinstance==null){
+      res.redirect('/')
+    }
+    res.render('gameinstance_delete', {title: 'Delete instance of game', gameinstance:gameinstance})
+  })
 };
 
 exports.gameinstance_delete_post = function(req, res, next){
-  res.send('NOT IMPLEMENTED: POST gameinstance delete form');
+  GameInstance.findById(req.params.id)
+  .populate('game')
+  .exec(function(err, gameinstance){
+    if(err){return next(err);}
+    if(gameinstance==null){
+      res.render('gameinstance_delete', {title:'Delete instance of game', gameinstance:gameinstance});
+      return;
+    }
+    else{
+      GameInstance.findByIdAndRemove(req.body.gameinstanceid, function deleteGameInstance(err){
+        if(err){ return next(err);}
+        res.redirect('/games/' + gameinstance.game._id)
+
+      })
+    }
+  })
 };

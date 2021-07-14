@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1 #{title}: #{gameinstance.game.title}?
+
+  p Do you really want to delete this Game copy?
+
+    form(method='POST' action='')
+      div.form-group1
+        input(type='hidden', name='gameinstanceid', required='true', value=gameinstance._id)
+
+      button(type='submit') Delete

@@ -95,14 +95,16 @@ router.post('/gameinstance/create', gameinstance_controller.gameinstance_create_
 router.get('/gameinstance/create', gameinstance_controller.gameinstance_create_get);
 
 
-// // Display detail of individualgame instance
-// router.get('/gameinstance/:id', gameinstance_controller.gameinstance_detail);
-//
+
 
 // Get request for deleting game instance
-router.get('/gameinsance/:id/delete', gameinstance_controller.gameinstance_delete_get);
+router.get('/gameinstance/:id/delete', gameinstance_controller.gameinstance_delete_get);
 
 // Post request for deleting game instance
 router.post('/gameinstance/:id/delete', gameinstance_controller.gameinstance_delete_post);
+
+// Display detail of individualgame instance
+router.get('/gameinstance/:id', gameinstance_controller.gameinstance_detail);
+
 
 module.exports = router;
